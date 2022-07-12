@@ -49,5 +49,29 @@ RSpec.describe Artist do
         expect(Artist.by_name).to eq([crj, jgb, prince, talking_heads])
       end
     end
+
+    describe 'it sorts an artists songs alphabetically' do
+      before :each do
+        @prince = Artist.create!(name: 'Prince')
+        @purple = @prince.songs.create!(title: 'Purple Rain', length: 845, play_count: 8599)
+        @beret = @prince.songs.create!(title: 'Raspberry Beret', length: 664, play_count: 99)
+        @other_song = @prince.songs.create!(title: 'Another Prince Song', length: 1, play_count: 99)
+      end
+      it 'returns Artists ordered by name alphabetically' do
+        expect(@prince.alpha_song_sort).to eq([@other_song, @purple, @beret])
+      end
+    end
+
+    before :each do
+        @prince = Artist.create!(name: 'Prince')
+        @purple = @prince.songs.create!(title: 'Purple Rain', length: 845, play_count: 8599)
+        @beret = @prince.songs.create!(title: 'Raspberry Beret', length: 664, play_count: 99)
+        @other_song = @prince.songs.create!(title: 'Another Prince Song', length: 1, play_count: 99)
+      end
+
+      it 'returns a number of shortest songs based on user input' do
+        expect(@prince.artist_shortest_songs(2)).to eql([@other_song, @beret])
+      end
+
   end
 end
